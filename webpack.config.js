@@ -1,12 +1,12 @@
-const { webpack: zeniaWebpack } = require('@zenia-ai/common');
 const CopyPlugin = require('copy-webpack-plugin');
 const merge = require('lodash/merge');
 const path = require('path');
+const { webpackConfig: baseWebpack } = require('./.webpack');
 
 module.exports = function (webpackEnv = {}, argv = {}) {
   const projectDir = path.resolve(__dirname);
 
-  const commonConfig = zeniaWebpack.webpackConfig({
+  const commonConfig = baseWebpack({
     mode: argv.mode,
     projectDir: path.resolve(projectDir),
     configName: webpackEnv.config,
@@ -33,20 +33,6 @@ module.exports = function (webpackEnv = {}, argv = {}) {
       patterns: [
         {
           from: path.resolve(projectDir, 'public', 'favicon.ico'),
-        },
-        {
-          from: path.resolve(projectDir, 'dist-worker', 'model'),
-          to: 'model',
-        },
-        {
-          from: path.resolve(projectDir, '..', '..', 'html', 'model'),
-          to: 'model',
-          filter(resourcePath) {
-            if (/\.js$/.test(resourcePath) ||/\.js\.map$/.test(resourcePath)) {
-              return false;
-            }
-            return true;
-          },
         },
       ],
     }),

@@ -1,7 +1,5 @@
 module.exports = {
   extends: [
-    //
-    '../../.eslintrc.yml',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
   ],
