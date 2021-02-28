@@ -1,0 +1,8 @@
+[default]
+chrome >= 80
+
+[production]
+chrome >= 80
+
+[development]
+last 1 chrome version
