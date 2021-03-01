@@ -7,7 +7,9 @@ export const App: FC = () => (
     <Top>WB labels</Top>
     <Labels>
       {Array.from(Array(21)).map((_, i) => (
-        <Label key={i} />
+        <LabelRoot key={i}>
+          <Label />
+        </LabelRoot>
       ))}
     </Labels>
   </div>
@@ -15,10 +17,18 @@ export const App: FC = () => (
 
 const Labels = styled.div`
   width: 210mm;
-  max-height: 297mm;
+  height: 297mm;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(7, 1fr);
+`;
+
+const LabelRoot = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 6mm;
+  /* border: 1px solid yellow; */
+  box-sizing: border-box;
 `;
 
 const Top = styled.div`
