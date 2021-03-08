@@ -1,13 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, useReducer } from 'react';
 import styled from 'styled-components';
 import { Label } from '../Label';
+import { reducer, defaultState } from './LabelManager.reducer';
 
 export const LabelManager: FC = () => {
+  const [state, dispatch] = useReducer(reducer, defaultState);
+
   return (
     <Labels>
       {Array.from(Array(21)).map((_, i) => (
         <LabelRoot key={i} tabIndex={0}>
-          <Label />
+          <Label code={state[i]?.code} text={state[i]?.text} />
         </LabelRoot>
       ))}
     </Labels>

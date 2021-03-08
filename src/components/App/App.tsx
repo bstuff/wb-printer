@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export const App: FC = () => (
   <div>
-    <Top>WB labels</Top>
+    <Top>{/* WB labels */}</Top>
     <LabelManager />
   </div>
 );

@@ -3,12 +3,18 @@ import styled from 'styled-components';
 import JsBarcode from 'jsbarcode';
 import { nl2br } from '../../nl2br';
 
-export const Label: FC = () => {
-  const $canvas = useRef<HTMLCanvasElement>(null);
-  const [code] = useState('2001211906004');
-  const [text] = useState('Залупа конская в ассортименте\nРазмер: XL\nПроизводитель: ИП Лебедев Артемий Татьянович');
+interface LabelProps {
+  code: string;
+  text?: string;
+}
 
-  const textNode = useMemo(() => nl2br(text), [text]);
+export const Label: FC<LabelProps> = (props) => {
+  const { code, text } = props;
+  const $canvas = useRef<HTMLCanvasElement>(null);
+  // const [code] = useState('2001211906004');
+  // const [text] = useState('Залупа конская в ассортименте\nРазмер: XL\nПроизводитель: ИП Лебедев Артемий Татьянович');
+
+  const textNode = useMemo(() => (text ? nl2br(text) : null), [text]);
 
   useEffect(() => {
     JsBarcode($canvas.current)
@@ -25,7 +31,6 @@ export const Label: FC = () => {
       <Barcode>
         <CanvasRoot>
           <Canvas ref={$canvas} />
-          <div></div>
         </CanvasRoot>
         <Eac src={require('./EAC.svg')} />
       </Barcode>
