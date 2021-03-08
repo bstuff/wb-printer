@@ -6,10 +6,11 @@ import { nl2br } from '../../nl2br';
 export interface ILabelProps {
   code: string;
   text?: string;
+  onBarcodeClick?(): void;
 }
 
 export const Label: FC<ILabelProps> = (props) => {
-  const { code, text } = props;
+  const { code, text, onBarcodeClick } = props;
   const $canvas = useRef<HTMLCanvasElement>(null);
   // const [code] = useState('2001211906004');
   // const [text] = useState('Залупа конская в ассортименте\nРазмер: XL\nПроизводитель: ИП Лебедев Артемий Татьянович');
@@ -29,7 +30,7 @@ export const Label: FC<ILabelProps> = (props) => {
     <Root>
       <Text>{textNode}</Text>
       <Barcode>
-        <CanvasRoot>
+        <CanvasRoot onClick={onBarcodeClick}>
           <Canvas ref={$canvas} />
         </CanvasRoot>
         <Eac src={require('./EAC.svg')} />
