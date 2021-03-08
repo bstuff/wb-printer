@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import JsBarcode from 'jsbarcode';
 import { nl2br } from '../../nl2br';
 
-interface LabelProps {
+export interface ILabelProps {
   code: string;
   text?: string;
 }
 
-export const Label: FC<LabelProps> = (props) => {
+export const Label: FC<ILabelProps> = (props) => {
   const { code, text } = props;
   const $canvas = useRef<HTMLCanvasElement>(null);
   // const [code] = useState('2001211906004');
