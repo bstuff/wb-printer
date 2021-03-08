@@ -17,7 +17,7 @@ export const Label: FC = () => {
         // displayValue: false,
       })
       .render();
-  }, []);
+  }, [code]);
 
   return (
     <Root>
