@@ -20,8 +20,8 @@ const Labels = styled.div`
   width: 210mm;
   height: 297mm;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(7, 1fr);
+  grid-template-columns: repeat(3, 70mm);
+  grid-template-rows: repeat(7, calc(297mm / 7));
 `;
 
 const LabelRoot = styled.div`

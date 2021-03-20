@@ -1,4 +1,4 @@
-import { Grid, IconButton, TextField } from '@material-ui/core';
+import { Grid, IconButton, TextField, TextareaAutosize } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/Done';
 import React, { FC, FormEventHandler, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -71,7 +71,8 @@ export const LabelEditor = forwardRef<ILabelEditorRef, ILabelProps>((props, ref)
                 variant="outlined"
                 label="Description"
                 size="small"
-                defaultValue={props.text}
+                multiline
+                defaultValue={text}
                 rows={4}
               />
             </Grid>
