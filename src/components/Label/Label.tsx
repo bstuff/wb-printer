@@ -6,14 +6,13 @@ import { nl2br } from '../../nl2br';
 export interface ILabelProps {
   code: string;
   text?: string;
+  onTextClick?(): void;
   onBarcodeClick?(): void;
 }
 
 export const Label: FC<ILabelProps> = (props) => {
-  const { code, text, onBarcodeClick } = props;
+  const { code, text, onBarcodeClick, onTextClick } = props;
   const $canvas = useRef<HTMLCanvasElement>(null);
-  // const [code] = useState('2001211906004');
-  // const [text] = useState('Залупа конская в ассортименте\nРазмер: XL\nПроизводитель: ИП Лебедев Артемий Татьянович');
 
   const textNode = useMemo(() => (text ? nl2br(text) : null), [text]);
 
@@ -28,7 +27,7 @@ export const Label: FC<ILabelProps> = (props) => {
 
   return (
     <Root>
-      <Text>{textNode}</Text>
+      <Text onClick={onTextClick}>{textNode}</Text>
       <Barcode>
         <CanvasRoot onClick={onBarcodeClick}>
           <Canvas ref={$canvas} />
@@ -68,4 +67,5 @@ const Barcode = styled.div`
 const CanvasRoot = styled.div``;
 const Text = styled.div`
   font-size: 10px;
+  min-height: 10px;
 `;

@@ -7,7 +7,7 @@ import { Label } from '../Label';
 
 export const LabelEditor: FC<ILabelProps> = (props) => {
   const [code, setCode] = useState(props.code);
-  const [text] = useState(props.text);
+  const [text, setText] = useState(props.text);
 
   const $codeField = useRef<HTMLInputElement>(null);
   const [isCodeFormVisible, setIsCodeFormVisible] = useState(false);
@@ -16,8 +16,6 @@ export const LabelEditor: FC<ILabelProps> = (props) => {
     setCode($codeField.current?.value || (undefined as any));
     setIsCodeFormVisible(false);
   }, []);
-  // const hideCodeForm = useCallback(() => setIsCodeFormVisible(false), []);
-  // const showCodeForm = useCallback(() => setIsCodeFormVisible(true), []);
   const onBarcodeClick = useCallback(() => {
     setIsCodeFormVisible(true);
     setTimeout(() => {
@@ -25,9 +23,44 @@ export const LabelEditor: FC<ILabelProps> = (props) => {
     }, 10);
   }, []);
 
+  const $descField = useRef<HTMLInputElement>(null);
+  const [isDescFormVisible, setIsDescFormVisible] = useState(false);
+  const onDescSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
+    e.preventDefault();
+    setText($descField.current?.value || (undefined as any));
+    setIsDescFormVisible(false);
+  }, []);
+  const onTextClick = useCallback(() => {
+    setIsDescFormVisible(true);
+    setTimeout(() => {
+      $codeField.current?.focus();
+    }, 10);
+  }, []);
+
   return (
     <LabelEditorRoot>
-      <Label code={code} text={text} onBarcodeClick={onBarcodeClick} />
+      <Label code={code} text={text} onBarcodeClick={onBarcodeClick} onTextClick={onTextClick} />
+      {isDescFormVisible && (
+        <CodeFieldForm onSubmit={onDescSubmit}>
+          <Grid container spacing={1} alignItems="center" wrap="nowrap">
+            <Grid item>
+              <TextField
+                inputRef={$descField}
+                variant="outlined"
+                label="Description"
+                size="small"
+                defaultValue={props.text}
+                rows={4}
+              />
+            </Grid>
+            <Grid item>
+              <IconButton color="primary" size="small" type="submit">
+                <AccountCircle />
+              </IconButton>
+            </Grid>
+          </Grid>
+        </CodeFieldForm>
+      )}
       {isCodeFormVisible && (
         <CodeFieldForm onSubmit={onCodeSubmit}>
           <Grid container spacing={1} alignItems="center" wrap="nowrap">

@@ -10,15 +10,19 @@ type LabelState = {
 export const defaultState: LabelState[] = [
   {
     code: '2001211906004',
+    text: 'hello world',
   },
   {
     code: '2001211906004',
+    text: 'hello world',
   },
   {
     code: '2001211906004',
+    text: 'hello world',
   },
   {
     code: '2001211906004',
+    text: 'hello world',
   },
 ];
 
