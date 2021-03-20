@@ -1,13 +1,35 @@
 import { Grid, IconButton, TextField } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/Done';
-import React, { FC, FormEventHandler, useCallback, useRef, useState } from 'react';
+import React, { FC, FormEventHandler, forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import styled from 'styled-components';
 import type { ILabelProps } from '../Label';
 import { Label } from '../Label';
 
-export const LabelEditor: FC<ILabelProps> = (props) => {
+type CopyPasteValue = Pick<ILabelProps, 'code' | 'text'>;
+
+export interface ILabelEditorRef {
+  copy(): CopyPasteValue;
+  paste(v: CopyPasteValue): void;
+}
+
+export const LabelEditor = forwardRef<ILabelEditorRef, ILabelProps>((props, ref) => {
   const [code, setCode] = useState(props.code);
   const [text, setText] = useState(props.text);
+
+  useImperativeHandle(ref, () => {
+    return {
+      copy() {
+        return {
+          code,
+          text,
+        };
+      },
+      paste({ code, text }) {
+        setCode(code);
+        text && setText(text);
+      },
+    };
+  });
 
   const $codeField = useRef<HTMLInputElement>(null);
   const [isCodeFormVisible, setIsCodeFormVisible] = useState(false);
@@ -77,7 +99,7 @@ export const LabelEditor: FC<ILabelProps> = (props) => {
       )}
     </LabelEditorRoot>
   );
-};
+});
 
 const LabelEditorRoot = styled.div`
   width: 100%;
