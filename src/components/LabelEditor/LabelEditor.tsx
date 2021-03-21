@@ -26,7 +26,7 @@ export const LabelEditor = forwardRef<ILabelEditorRef, ILabelProps>((props, ref)
       },
       paste({ code, text }) {
         setCode(code);
-        text && setText(text);
+        (text || text === '') && setText(text);
       },
     };
   });

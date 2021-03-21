@@ -104,6 +104,8 @@ const LabelRootCompoent = forwardRef<HTMLDivElement, ILabelRootCompoentProps>((p
           labelEditorRef.current!.paste({ code: clipboardData });
         }
       }
+    } else if (event.code === 'Backspace') {
+      labelEditorRef.current!.paste({ code: undefined as any, text: '' });
     } else if (event.code === 'ArrowUp') {
       event.preventDefault();
       onArrow('up');
