@@ -49,6 +49,7 @@
   "scripts": {
     "start": "BROWSERSLIST_ENV=development webpack-dev-server --config=./webpack.config.js --mode=development --env.config=dev",
     "build:dev": "rm -rf ./build/* && BROWSERSLIST_ENV=development webpack --config=./webpack.config.js --mode=development --env.config=dev",
+    "build:prod": "rm -rf ./build/* && BROWSERSLIST_ENV=production webpack --config=./webpack.config.js --mode=production --env.config=prod",
     "check:ts": "tsc --noEmit --project ./tsconfig.json",
     "test": "jest --config=./.jest/jest.config.js"
   }
