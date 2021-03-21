@@ -1,7 +1,7 @@
 const path = require('path');
 
 const getPublicPath = () => {
-  return process.env.PUBLIC_PATH || '/';
+  return process.env.PUBLIC_PATH || '';
 };
 
 const getOutputPath = (projectDir) => {
