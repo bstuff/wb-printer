@@ -24,7 +24,7 @@ module.exports = function (api) {
     plugins: [
       ['@babel/plugin-proposal-class-properties', { loose: false }],
       '@babel/plugin-proposal-optional-chaining',
-      process.env.JEST_WORKER_ID && '@babel/plugin-transform-modules-commonjs',
+      '@babel/plugin-transform-modules-commonjs',
     ].filter(Boolean),
   };
 };
