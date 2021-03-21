@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@reduxjs/toolkit": "^1.5.0",
     "classnames": "^2.2.6",
     "jsbarcode": "^3.11.3",
     "react": "^17.0.1",
@@ -46,6 +49,7 @@
   "scripts": {
     "start": "BROWSERSLIST_ENV=development webpack-dev-server --config=./webpack.config.js --mode=development --env.config=dev",
     "build:dev": "rm -rf ./build/* && BROWSERSLIST_ENV=development webpack --config=./webpack.config.js --mode=development --env.config=dev",
+    "build:prod": "rm -rf ./build/* && BROWSERSLIST_ENV=production webpack --config=./webpack.config.js --mode=production --env.config=prod",
     "check:ts": "tsc --noEmit --project ./tsconfig.json",
     "test": "jest --config=./.jest/jest.config.js"
   }
