@@ -1,16 +1,51 @@
-import React, { FC, KeyboardEventHandler, useCallback, useReducer, useRef } from 'react';
+import React, { FC, forwardRef, KeyboardEventHandler, useCallback, useReducer, useRef, useState } from 'react';
+import { useEnsuredForwardedRef } from 'react-use';
+import { noop } from 'rxjs';
 import styled from 'styled-components';
 import { LabelEditor } from '../LabelEditor';
 import { ILabelEditorRef } from '../LabelEditor/LabelEditor';
-import { reducer, defaultState } from './LabelManager.reducer';
+import { defaultState, reducer } from './LabelManager.reducer';
 
 export const LabelManager: FC = () => {
-  const [state, dispatch] = useReducer(reducer, defaultState);
+  const [state, _dispatch] = useReducer(reducer, defaultState);
+  const [refs] = useState<(HTMLDivElement | null)[]>([]);
+
+  const onArrow = (i: number) => (direction: 'up' | 'down' | 'left' | 'right') => {
+    let nextI = i;
+    switch (direction) {
+      case 'up':
+        nextI -= 3;
+        break;
+      case 'down':
+        nextI += 3;
+        break;
+      case 'right':
+        nextI++;
+        break;
+      case 'left':
+        nextI--;
+        break;
+      default:
+        break;
+    }
+
+    refs[nextI]?.focus();
+  };
 
   return (
     <Labels>
       {Array.from(Array(21)).map((_, i) => (
-        <LabelRootCompoent key={i} code={state[i]?.code} text={state[i]?.text} />
+        <LabelRootCompoent
+          key={i}
+          code={state[i]?.code}
+          text={state[i]?.text}
+          onArrow={onArrow(i)}
+          ref={{
+            set current(instance: HTMLDivElement) {
+              refs[i] = instance;
+            },
+          }}
+        />
       ))}
     </Labels>
   );
@@ -28,20 +63,22 @@ const LabelRoot = styled.div`
   width: 100%;
   height: 100%;
   padding: 6mm;
-  /* border: 1px solid yellow; */
   box-sizing: border-box;
-  /* &:focus {
-    border: 2px solid blue;
-  } */
 `;
 
-const LabelRootCompoent: FC<{ code: any; text: any }> = (props) => {
-  const { code, text } = props;
-  const ref = useRef<HTMLDivElement>(null);
+export interface ILabelRootCompoentProps {
+  code: any;
+  text: any;
+  onArrow?(direction: 'up' | 'down' | 'left' | 'right'): void;
+}
+
+const LabelRootCompoent = forwardRef<HTMLDivElement, ILabelRootCompoentProps>((props, ref) => {
+  const { code, text, onArrow = noop } = props;
+  const $ref = useEnsuredForwardedRef<HTMLDivElement | null>(ref as any);
   const labelEditorRef = useRef<ILabelEditorRef>(null);
 
   const handleKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(async (event) => {
-    if (event.target !== ref.current) {
+    if (event.target !== $ref.current) {
       return;
     }
     let charCode = event.key.toLowerCase();
@@ -67,13 +104,24 @@ const LabelRootCompoent: FC<{ code: any; text: any }> = (props) => {
           labelEditorRef.current!.paste({ code: clipboardData });
         }
       }
-      console.log('Cmd + V pressed', clipboardData);
+    } else if (event.code === 'ArrowUp') {
+      event.preventDefault();
+      onArrow('up');
+    } else if (event.code === 'ArrowDown') {
+      event.preventDefault();
+      onArrow('down');
+    } else if (event.code === 'ArrowRight') {
+      event.preventDefault();
+      onArrow('right');
+    } else if (event.code === 'ArrowLeft') {
+      onArrow('left');
+      event.preventDefault();
     }
   }, []);
 
   return (
-    <LabelRoot tabIndex={0} onKeyDown={handleKeyDown} ref={ref}>
+    <LabelRoot tabIndex={0} onKeyDown={handleKeyDown} ref={$ref}>
       <LabelEditor ref={labelEditorRef} code={code} text={text} />
     </LabelRoot>
   );
-};
+});
