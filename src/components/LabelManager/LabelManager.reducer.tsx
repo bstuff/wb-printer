@@ -13,11 +13,11 @@ export const defaultState: LabelState[] = [
     text: 'hello world',
   },
   {
-    code: '2001211906004',
+    code: '2001211906005',
     text: 'hello world',
   },
   {
-    code: '2001211906004',
+    code: '2001211906006',
     text: 'hello world',
   },
   {
