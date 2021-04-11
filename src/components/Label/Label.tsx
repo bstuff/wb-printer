@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import JsBarcode from 'jsbarcode';
 import { nl2br } from '../../nl2br';
@@ -16,13 +16,22 @@ export const Label: FC<ILabelProps> = (props) => {
 
   const textNode = useMemo(() => (text ? nl2br(text) : null), [text]);
 
-  useEffect(() => {
-    JsBarcode($canvas.current)
-      .CODE128(code, {
-        height: 80,
-        // displayValue: false,
-      })
-      .render();
+  useLayoutEffect(() => {
+    const api = JsBarcode($canvas.current).CODE128(code, {
+      height: 60,
+      margin: 0,
+      marginTop: 0,
+      marginBottom: 0,
+      marginLeft: 0,
+      marginRight: 0,
+      // displayValue: false,
+    });
+
+    const frameId = requestAnimationFrame(() => api.render());
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
   }, [code]);
 
   return (
@@ -62,6 +71,7 @@ const Eac = styled.img`
 const Barcode = styled.div`
   display: flex;
   align-items: flex-end;
+  margin-top: 4px;
 `;
 
 const CanvasRoot = styled.div``;

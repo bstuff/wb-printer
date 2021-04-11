@@ -63,9 +63,7 @@ const LabelRoot = styled.div`
   width: 100%;
   height: 100%;
   padding: 4mm 6mm;
-  /* padding: 6mm; */
   box-sizing: border-box;
-  box-shadow: inset 0 0 1px 0 black;
 `;
 
 export interface ILabelRootCompoentProps {

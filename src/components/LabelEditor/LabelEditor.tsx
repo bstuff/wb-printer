@@ -60,7 +60,7 @@ export const LabelEditor = forwardRef<ILabelEditorRef, ILabelProps>((props, ref)
   }, []);
 
   return (
-    <LabelEditorRoot>
+    <LabelEditorRoot hide={!code}>
       <Label code={code} text={text} onBarcodeClick={onBarcodeClick} onTextClick={onTextClick} />
       {isDescFormVisible && (
         <CodeFieldForm onSubmit={onDescSubmit}>
@@ -102,10 +102,14 @@ export const LabelEditor = forwardRef<ILabelEditorRef, ILabelProps>((props, ref)
   );
 });
 
-const LabelEditorRoot = styled.div`
+const LabelEditorRoot = styled.div<{ hide?: boolean }>`
   width: 100%;
   height: 100%;
   position: relative;
+  opacity: ${(props) => (props.hide ? 0.5 : 1)};
+  @media print {
+    display: ${(props) => (props.hide ? 'none' : 'block')};
+  }
 `;
 
 const CodeFieldForm = styled.form`
