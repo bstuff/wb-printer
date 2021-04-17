@@ -50,15 +50,16 @@ export const Label: FC<ILabelProps> = (props) => {
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
 
+const marginFix = 6;
+
 const Canvas = styled.canvas`
-  width: calc(100% + 18px);
-  margin: 0px -9px;
+  width: calc(100% + ${2 * marginFix}px);
+  margin: 0px -${marginFix}px;
   display: block;
 `;
 
